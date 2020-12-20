@@ -12,6 +12,16 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(bodyParser.json())
 // your code goes here
+app.get("/topRankings", async (req, res) => {
+    const { limit, offset } = req.query;
+    const lim = limit === undefined ? 20 : isNaN(limit) ? 20 : Number(limit);
+    const off = offset === undefined ? 0 : isNaN(offset) ? 0 : Number(offset);
+  
+    //   const topPerformers = await data.find().skip(off).limit(lim);
+    const topPerformers = await data.slice(off, off + lim);
+  
+    res.send(topPerformers);
+  });
 
 
 app.listen(port, () => console.log(`App listening on port ${port}!`))
